@@ -26,23 +26,22 @@ from circuitsim import CircuitSimulator
 
 
 def main():
-    # Exercise 100 random inputs 10 times.
-    num_trials = 10
-    num_vectors = 100
-    c = cg.from_lib("c880")
+    # Exercise 3 random inputs patterns 5 times.
+    num_trials = 5
+    num_vectors = 3
+    c = cg.from_lib("c17")
     simulator = CircuitSimulator(c)
-    for _ in range(num_trials):
+    for sim_num in range(num_trials):
         vectors = []
         for _ in range(num_vectors):
             vectors.append({i: random.choice([True, False])
                            for i in c.inputs()})
         sim_results = simulator.simulate(vectors)
-        print(sim_results)
+        print(f"Simulation {sim_num}")
+        print(f"inputs: {vectors}")
+        print(f"outputs: {sim_results}")
 
 
 if __name__ == "__main__":
     main()
 ```
-
-## Available Simulators
-So far, [iverilog](http://iverilog.icarus.com) and VCS are compatible with `circuitsim`.
