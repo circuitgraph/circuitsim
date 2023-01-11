@@ -4,7 +4,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
-An interafce to perform simulations of gate-level HDL designs from python.
+An interafce to perform simulations of gate-level HDL designs from python using [circuitgraph](https://github.com/circuitgraph/circuitgraph)
 
 ## Installation
 
@@ -20,24 +20,34 @@ cd <install location>
 git clone https://github.com/circuitgraph/circuitsim.git
 cd circuitsim
 pip install -e .
-
-In order to perform simulations, you must have at least one of the available simulators installed.
 ```
 
-## Using the simulator
-Simulation can be performed using the `CircuitSimulator` class.
+In order to perform simulations, you must have at least one of the available simulators installed. Currently, [iverilog](http://iverilog.icarus.com), [verilator](https://www.veripool.org/verilator/), and VCS are supported. In order to use a given simulator, it must be in your `PATH`.
 
-This allows the simulation to be compiled once and then quieried multiple times without having to recompile.
 
-The `CircuitSimulator` accepts circuits in the form of [circuitgraph](https://circuitgraph.github.io/circuitgraph/) `Circuit` objects.
+## Usage
 
-Vectors are accepted and returned as dictionaries mapping input/output names to logical values (`True` or `False`).
+Simulation of a `circuitgraph.Circuit` object can be performed by constructing a `CircuitSimulator` object with that circuit.
 
-## Available simulators
+```python
+import circuitgraph as cg
+from circuitsim import CircuitSimulator
+c = cg.from_file("path/to/gate/level/netlist.v")
+simulator = CircuitSimulator(c)
+```
 
-Currently, [iverilog](http://iverilog.icarus.com), [verilator](https://www.veripool.org/verilator/), and VCS are supported. In order to use a given simulator, it must be in your `PATH`.
+Then, simulations can be run using `CircuitSimulator.simulate` and passing in a list of dictionaries mapping circuit inputs to boolean values (`True`/`False`). The simulation will be automatically compiled the first time `simulate` is called. Subsequent calls with different inputs will not require re-compilation.
+
+```python
+result = simulator.simulate([{"in0": True, "in1": False}])
+```
+
+The result will be a corresponding list of dictionaries mapping circuit outputs to boolean values.
+
+See the documentation of the `CircuitSimulator` class for more information.
 
 ## Usage Example
+
 ```python
 import random
 import shutil
