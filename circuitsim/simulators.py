@@ -145,7 +145,7 @@ def execute_simulator(
                     if len(missing_inputs) > 20:
                         missing_inputs = missing_inputs[:17] + "..."
                     raise ValueError(
-                        "Value not provided for inputs '{missing_inputs}'"
+                        f"Value not provided for inputs '{missing_inputs}'"
                     ) from e
 
     if num_processes > 1:
