@@ -182,10 +182,10 @@ def parse_simulation_output(working_dir, outputs, num_processes, allow_x=False):
     num_process: int
             The number of simulation processes that were run.
     allow_x: bool
-            If True, the outputs can contain "don't care" or "x"
-            values in addition to 0 and 1. The outputs will then be
-            returned as a dict of str:str, where each output is either
-            "0", "1", or "x".
+            If True, the inputs/outputs can contain "x" or "z" values
+            in addition to 0 and 1. The outputs will then be returned
+            as a dict of str:str, where each output is either
+            "0", "1", "x", or "z".
 
     Returns
     -------
@@ -193,7 +193,7 @@ def parse_simulation_output(working_dir, outputs, num_processes, allow_x=False):
             The simulation outputs. Each vector is represented as a
             dictionary mapping an output to a logical value. If `allow_x`
             is True, then instead of logic values, each output will be
-            mapped to either "0", "1", or "x".
+            mapped to either "0", "1", "x", or "z".
 
     """
     working_dir = Path(working_dir)
@@ -202,7 +202,7 @@ def parse_simulation_output(working_dir, outputs, num_processes, allow_x=False):
         with open(working_dir / f"output_file_{p}.txt") as f:
             for line in f:
                 if allow_x:
-                    if not set(line.strip().lower()) <= {"0", "1", "x"}:
+                    if not set(line.strip().lower()) <= {"0", "1", "x", "z"}:
                         raise ValueError(f"Unknown value in simulation output: {line}")
                     vectors.append(dict(zip(outputs, line.strip().lower())))
                 else:

@@ -82,11 +82,10 @@ class CircuitSimulator:
                 number more than 1 will cause multiple simulations to be
                 executed in parallel.
         allow_x: bool
-                If True, the inputs/outputs can contain "don't care" or "x"
-                values in addition to 0 and 1. Specify an don't care value
-                for an input by setting it to "x". The outputs will then be
-                returned as a dict of str:str, where each output is either
-                "0", "1", or "x".
+                If True, the inputs/outputs can contain "x" or "z" values
+                in addition to 0 and 1. The outputs will then be returned
+                as a dict of str:str, where each output is either
+                "0", "1", "x", or "z".
 
         Returns
         -------
@@ -94,7 +93,7 @@ class CircuitSimulator:
                 The simulation outputs. Each vector is represented as a
                 dictionary mapping an output to a logical value. If `allow_x`
                 is True, then instead of logic values, each output will be
-                mapped to either "0", "1", or "x".
+                mapped to either "0", "1", "x", or "z".
 
         """
         if not self._initialized:
