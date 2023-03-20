@@ -39,11 +39,11 @@ def generate_testbench(output_dir, name, inputs, outputs, simulator):
         tb += f"  reg {first_sim};\n\n"
     else:
         tb = "module tb;\n\n"
-    tb += "\n".join(f"  wire {i};" for i in inputs) + "\n\n"
-    tb += "\n".join(f"  wire {o};" for o in outputs) + "\n\n"
+    tb += "\n".join(f"  wire {i} ;" for i in inputs) + "\n\n"
+    tb += "\n".join(f"  wire {o} ;" for o in outputs) + "\n\n"
 
     tb += f"  {name} {name}_inst(\n"
-    tb += ",\n".join(f"    .{i}({i})" for i in inputs + outputs)
+    tb += ",\n".join(f"    .{i} ( {i} )" for i in inputs + outputs)
     tb += "\n  );\n\n"
 
     ret = _uniquify("ret", inputs + outputs)
@@ -52,8 +52,8 @@ def generate_testbench(output_dir, name, inputs, outputs, simulator):
     input_vector = _uniquify("input_vector", inputs + outputs)
     tb += f"  reg [{len(inputs)-1}:0] {input_vector};\n\n"
 
-    input_concat = "{" + ", ".join(inputs) + "}"
-    output_concat = "{" + ", ".join(outputs) + "}"
+    input_concat = "{ " + " , ".join(inputs) + " }"
+    output_concat = "{ " + " , ".join(outputs) + " }"
 
     tb += f"  assign {input_concat} = {input_vector};\n\n"
 
